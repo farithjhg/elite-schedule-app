@@ -37,7 +37,7 @@ export class Teams {
               .value();
 
           this.teams = this.allTeamDivisions;
-          console.log('division teams', this.teams); 
+          
           loader.dismiss();
       });
      });

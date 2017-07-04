@@ -50,5 +50,8 @@ export class EliteApi {
         return this.currentTourney;
     }
     
+    refreshCurrentTourney(){
+        return this.getTournamentData2(this.currentTourney. tournament.id, true); 
+    }   
 
 }
