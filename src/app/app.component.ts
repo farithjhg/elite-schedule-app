@@ -1,18 +1,25 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { LoadingController, Events, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { MyTeams, Tournaments } from '../pages/pages';
+import { MyTeams, Tournaments,TeamHome } from '../pages/pages';
+import { UserSettings, EliteApi } from '../services/services';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-
+  myFavoriteTeams = [];
   rootPage: any = MyTeams;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform,
+            private events : Events, 
+            private loadingController : LoadingController,
+            private userSettings : UserSettings,
+            private eliteApi : EliteApi,
+            public statusBar: StatusBar, 
+            public splashScreen: SplashScreen) {
     this.initializeApp();
   }
 
@@ -22,6 +29,8 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.refreshMyFavoriteTeams();
+      this.events.subscribe('favorite::changed', () => {this.refreshMyFavoriteTeams()});
     });
   }
 
@@ -39,4 +48,16 @@ export class MyApp {
     this.nav.push(Tournaments);
   }
 
+  refreshMyFavoriteTeams(){
+    this.myFavoriteTeams = this.userSettings.getAllFavorites();
+  }
+
+  goToTeam(fav){
+    let loader = this.loadingController.create({
+        content : 'Getting data...',
+        dismissOnPageChange : true
+    });
+    loader.present();
+    this.eliteApi.getTournamentData(fav.tournamentId).subscribe(l => this.nav.push(TeamHome, fav.team));
+  }
 }

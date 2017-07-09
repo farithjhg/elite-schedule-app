@@ -4,6 +4,10 @@
   </ion-navbar>
   <ion-toolbar color="secondary">
     <ion-title>Teams</ion-title>
+    <ion-searchbar placeholder="Search" 
+                  [(ngModel)]="queryText"
+                  (ionInput)="updateTeams()">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

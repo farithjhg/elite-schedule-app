@@ -19,16 +19,7 @@ export class EliteApi {
         });
     }
 
-
-    getTournamentData(tourneyId) : Observable<any> {
-        return this.http.get(`${this.baseUrl}/tournaments-data/${tourneyId}.json`)
-            .map(response => {
-                this.currentTourney = response.json();
-                return this.currentTourney;
-            });
-    }
-
-    getTournamentData2(tourneyId, forceRefresh: boolean = false) : Observable<any> {
+    getTournamentData(tourneyId, forceRefresh: boolean = false) : Observable<any> {
         if (!forceRefresh && this.tourneyData[tourneyId]) {
             this.currentTourney = this.tourneyData[tourneyId];
             console.log('**no need to make HTTP call, just return the data'); 
@@ -51,7 +42,7 @@ export class EliteApi {
     }
     
     refreshCurrentTourney(){
-        return this.getTournamentData2(this.currentTourney. tournament.id, true); 
+        return this.getTournamentData(this.currentTourney. tournament.id, true); 
     }   
 
 }

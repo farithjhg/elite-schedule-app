@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, NavController, NavParams, ToastController } from 'ionic-angular';
 import _ from 'lodash';
 import moment from 'moment';
-import { EliteApi } from '../../services/services';
+import { EliteApi, UserSettings } from '../../services/services';
 import {Game} from '../pages';
 
 @Component({
@@ -20,7 +20,7 @@ export class TeamDetail {
   useDateFilter = false;
 
   constructor(public alertController: AlertController, public toastController : ToastController,
-            public navCtrl: NavController, private eliteApi : EliteApi,
+            public navCtrl: NavController, private eliteApi : EliteApi, private userSettings : UserSettings,
             public navParams: NavParams) {
   }
 
@@ -46,6 +46,7 @@ export class TeamDetail {
                   .value();
         this.allGames = this.games;
         this.teamStanding = _.find(this.tourneyData.standings, { 'teamId': this.team.id });
+        this.isFollowing = this.userSettings.isFavoriteTeam(this.team.id) ;
   }
 
   gameClicked($event, game){
@@ -97,11 +98,7 @@ export class TeamDetail {
                 position: 'bottom'
               });
               toast.present();
-              /*
-              this.userSettings.unfavoriteTeam(this.team);
-
-              
-              */ 
+              this.userSettings.unFavoriteTeam(this.team);
             }
           },
           { text: 'No' }
@@ -110,12 +107,10 @@ export class TeamDetail {
       confirm.present();
     } else {
       this.isFollowing = true;
-      /*
       this.userSettings.favoriteTeam(
         this.team, 
         this.tourneyData.tournament.id, 
         this.tourneyData.tournament.name); 
-        */
     }
   } 
 

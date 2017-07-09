@@ -12,6 +12,7 @@ export class Teams {
   private allTeams : any;
   private allTeamDivisions : any;
   teams = [];
+  queryText : string;
   selectedTournament : any;
 
   constructor(public navCtrl: NavController, private loadingController : LoadingController, 
@@ -48,4 +49,16 @@ export class Teams {
     this.navCtrl.push(TeamHome, team);
   }
 
+  updateTeams(){
+    let queryTextLower = this.queryText.toLowerCase();
+    let filteredTeams = [];
+    _.forEach(this.allTeamDivisions, td => {
+      let teams = _.filter(td.divisionTeams, t => (<any>t).name.toLowerCase().includes(queryTextLower));
+      if (teams.length) {
+        filteredTeams.push({ divisionName: td.divisionName, divisionTeams: teams });
+      }
+    });
+
+    this.teams = filteredTeams;
+  }
 }
