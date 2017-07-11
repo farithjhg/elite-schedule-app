@@ -10,11 +10,12 @@ import { Tournaments } from '../pages/tournaments/tournaments';
 import { Teams } from '../pages/pages';
 import { TeamDetail } from '../pages/pages';
 import { TeamHome, Standings } from '../pages/pages';
-import { Game } from '../pages/pages';
+import { Game, MapPage } from '../pages/pages';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { AgmCoreModule } from 'angular2-google-maps/core';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Tournaments,
     Teams,
     Game,
+    MapPage,
     TeamDetail,
     TeamHome,
     Standings
@@ -31,11 +33,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyBbsOlMryAHu2ESwHHSwrDBIUU7fiENNoM' }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     Game,
+    MapPage,
     MyTeams,
     Tournaments,
     Teams,

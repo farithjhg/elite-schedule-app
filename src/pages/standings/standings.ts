@@ -23,15 +23,18 @@ export class Standings {
     let tourneyData = this.eliteApi.getCurrentTourney();
     this.standings = tourneyData.standings;
 
-    // this.allStandings =
-    //   _.chain(this.standings)
-    //     .groupBy('division')
-    //     .toPairs()
-    //     .map(item => _.zipObject(['divisionName', 'divisionStandings'], item))
-    //     .value();
+    console.log('standings:', this.standings);
 
-    console.log('standings:', this.standings); 
-    // console.log('division Standings', this.allStandings);
+    this.allStandings = tourneyData.standings;
+    this.filterDivision(); 
+  }
+
+  filterDivision(){
+    if(this.divisionFilter === 'all'){
+      this.standings = this.allStandings;
+    } else {
+      this.standings = _.filter(this.allStandings, s => s.division === this.team.division);
+    }
   }
 
   getHeader(record, recordIndex, records){
